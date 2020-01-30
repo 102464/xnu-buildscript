@@ -29,7 +29,7 @@ git clone https://gitee.com/pxesrv/ramdisk
 echo "[-- Downloading image3maker"
 git clone https://gitee.com/pxesrv/image3maker
 echo "Done."
-echo "------START COMPILETATION------"
+echo "------START COMPILATION------"
 echo "]-- Compiling xnu-deps-linux"
 cd xnu-deps-linux
 make
