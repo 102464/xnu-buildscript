@@ -1,0 +1,75 @@
+#!/bin/sh
+echo "DARWIN BUILD SCRIPT V1.0.0"
+echo "-------------------------------"
+echo "This script is only compatible with Ubuntu 14.04.*(i386),"
+echo "as it has clang-3.4 which won't cause build errors."
+echo "-------------------------------"
+printf "Check if you are satisfied. Enter to continue."
+read
+echo "Installing dependencies (may need password)"
+sudo apt install git-core qemu-system-arm -y
+sudo apt install gcc-arm-none-eabi -y
+sudo apt install dpkg-dev devscripts debhelper clang-3.4 llvm-dev \
+uuid-dev libssl-dev libblocksruntime-dev libc6-dev \
+gcc-multilib build-essential flex tcsh bison automake \
+autogen libtool gobjc libdb-dev u-boot-tools -y
+echo "Downloading source code"
+echo "[-- Downloading XNU kernel"
+git clone https://gitee.com/pxesrv/xnu
+echo "[-- Downloading GenericBooter"
+git clone https://gitee.com/pxesrv/GenericBooter
+echo "[-- Downloading xnu-deps-linux"
+git clone https://gitee.com/pxesrv/xnu-deps-linux
+echo "[-- Downloading dtc-AppleDeviceTree"
+git clone https://gitee.com/pxesrv/dtc-AppleDeviceTree
+echo "[-- Downloading DeviceTrees"
+git clone https://gitee.com/pxesrv/DeviceTrees
+echo "[-- Downloading ramdisk"
+git clone https://gitee.com/pxesrv/ramdisk
+echo "[-- Downloading image3maker"
+git clone https://gitee.com/pxesrv/image3maker
+echo "Done."
+echo "------START COMPILETATION------"
+echo "]-- Compiling xnu-deps-linux"
+cd xnu-deps-linux
+make
+sudo make install
+cd ..
+echo "]-- Compiling image3maker"
+cd image3maker
+make
+cd ..
+echo "]-- Compiling XNU Kernel (There will need patches in the future)"
+cd xnu
+make TARGET_CONFIGS="debug arm armpba8" \
+NO_DTRACE_SYMS=YES BUILD_INTEGRATED_ASSEMBLER=1
+cd ..
+echo "]-- Compiling dtc-AppleDeviceTree"
+cd dtc-AppleDeviceTree
+make
+echo "[!] Installing dtc may need enter password please enter"
+sudo cp dtc /usr/local/bin
+cd ..
+echo "]-- Compiling DeviceTrees"
+cd DeviceTrees
+make
+cd ..
+echo "{-- Generating img3 for GenericBooter"
+echo "}---- Kernel"
+./image3maker/image3maker -t krnl -f xnu/BUILD/obj/DEBUG_ARMPBA8/mach_kernel -o GenericBooter/images/Mach.img3
+echo "}---- DeviceTree"
+./image3maker/image3maker -t dtre -f DeviceTrees/RealView.devicetree -o GenericBooter/images/DeviceTree.img3
+echo "}---- Ramdisk"
+./image3maker/image3maker -t rdsk -f ramdisk/ramdisk.dmg -o GenericBooter/images/Ramdisk.img3
+echo "]-- Compiling GenericBooter"
+cd GenericBooter
+make CROSS_COMPILE=arm-none-eabi
+echo "[*] uImage generated"
+cp uImage ../
+cd ..
+echo "---SUCCESS---"
+echo "STARTING QEMU"
+qemu-system-arm -machine realview-pb-a8 -m 512 \
+-kernel uImage \
+-append "rd=md0 debug=0x16e serial=3 -v symbolicate_panics=1" \
+-serial stdio
