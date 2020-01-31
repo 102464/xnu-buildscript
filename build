@@ -1,4 +1,4 @@
-!/bin/sh
+#!/bin/sh
 echo "DARWIN BUILD SCRIPT V1.0.0"
 echo "-------------------------------"
 echo "This script is only compatible with Ubuntu 14.04.*(i386),"
