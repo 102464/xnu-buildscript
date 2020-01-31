@@ -49,13 +49,13 @@ cd darwin-sdk/cctools
 autoreconf -ivf
 cd ..
 make -j$CORES
-echo "[!] Installing darwin-sdk may need enter password please enter"
+echo "[!] Installing darwin-sdk may need to enter password please enter"
 sudo make install
 cd ..
 echo "]-- Compiling xnu-deps-linux"
 cd xnu-deps-linux
 make -j$CORES
-echo "[!] Installing xnu-deps-linux may need enter password please enter"
+echo "[!] Installing xnu-deps-linux may need to enter password please enter"
 sudo make install
 cd ..
 echo "]-- Compiling image3maker"
@@ -72,7 +72,7 @@ cd ..
 echo "]-- Compiling dtc-AppleDeviceTree"
 cd dtc-AppleDeviceTree
 make -j$CORES
-echo "[!] Installing dtc may need enter password please enter"
+echo "[!] Installing dtc may need to enter password please enter"
 sudo cp dtc /usr/local/bin
 cd ..
 echo "]-- Compiling DeviceTrees"
