@@ -63,7 +63,8 @@ echo "}---- Ramdisk"
 ./image3maker/image3maker -t rdsk -f ramdisk/ramdisk.dmg -o GenericBooter/images/Ramdisk.img3
 echo "]-- Compiling GenericBooter"
 cd GenericBooter
-make CROSS_COMPILE=arm-none-eabi
+make defconfig
+make CROSS_COMPILE=arm-none-eabi-
 echo "[*] uImage generated"
 cp uImage ../
 cd ..
