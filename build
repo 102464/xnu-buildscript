@@ -39,6 +39,7 @@ cd ..
 make
 echo "[!] Installing dtc may need enter password please enter"
 sudo make install
+cd ..
 echo "]-- Compiling xnu-deps-linux"
 cd xnu-deps-linux
 make
