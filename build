@@ -27,11 +27,22 @@ echo "[-- Downloading ramdisk"
 git clone https://gitee.com/pxesrv/ramdisk
 echo "[-- Downloading image3maker"
 git clone https://gitee.com/pxesrv/image3maker
+echo "[-- Downloading darwin-sdk"
+git clone https://gitee.com/pxesrv/darwin-sdk
 echo "Done."
 echo "------START COMPILATION------"
+echo "]-- Compiling darwin-sdk"
+echo "}---- Processing libtool version"
+cd darwin-sdk/cctools
+autoreconf -ivf
+cd ..
+make
+echo "[!] Installing dtc may need enter password please enter"
+sudo make install
 echo "]-- Compiling xnu-deps-linux"
 cd xnu-deps-linux
 make
+echo "[!] Installing dtc may need enter password please enter"
 sudo make install
 cd ..
 echo "]-- Compiling image3maker"
