@@ -73,14 +73,17 @@ echo "}---- DeviceTree"
 echo "}---- Ramdisk"
 ./image3maker/image3maker -t rdsk -f ramdisk/ramdisk.dmg -o GenericBooter/images/Ramdisk.img3
 echo "]-- Compiling GenericBooter"
-cd GenericBooter
+cd GenericBooter/arch
+mkdir ARCH; cd ARCH
 echo "{-- Generating default config for GenericBooter"
-echo "CONFIG_PROC_CORTEX_A8=y" > .config
+echo "CONFIG_PROC_CORTEX_A8=y" > defconfig
 echo "}---- CONFIG_PROC_CORTEX_A8 Done"
-echo "CONFIG_BOARD_ARM_REALVIEW=y" >> .config
+echo "CONFIG_BOARD_ARM_REALVIEW=y" >> defconfig
 echo "}---- CONFIG_BOARD_ARM_REALVIEW Done"
-echo "CONFIG_DT_SUPPORT_APPLE_FDT=y" >> .config
+echo "CONFIG_DT_SUPPORT_APPLE_FDT=y" >> defconfig
 echo "}---- CONFIG_DT_SUPPORT_APPLE_FDT Done"
+cd ../..
+make defconfig
 make CROSS_COMPILE=arm-none-eabi-
 echo "[*] uImage generated"
 cp uImage ../
