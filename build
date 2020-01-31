@@ -67,14 +67,20 @@ make
 cd ..
 echo "{-- Generating img3 for GenericBooter"
 echo "}---- Kernel"
-./image3maker/image3maker -t krnl -f xnu/BUILD/obj/DEBUG_ARMPBA8/mach_kernel -o GenericBooter/images/Mach.img3
+./image3maker/image3maker -t krnl -f xnu/BUILD/obj/DEBUG_ARM_ARMPBA8/mach_kernel -o GenericBooter/images/Mach.img3
 echo "}---- DeviceTree"
 ./image3maker/image3maker -t dtre -f DeviceTrees/RealView.devicetree -o GenericBooter/images/DeviceTree.img3
 echo "}---- Ramdisk"
 ./image3maker/image3maker -t rdsk -f ramdisk/ramdisk.dmg -o GenericBooter/images/Ramdisk.img3
 echo "]-- Compiling GenericBooter"
 cd GenericBooter
-make defconfig
+echo "{-- Generating default config for GenericBooter"
+echo "CONFIG_PROC_CORTEX_A8=y" > .config
+echo "}---- CONFIG_PROC_CORTEX_A8 Done"
+echo "CONFIG_BOARD_ARM_REALVIEW=y" >> .config
+echo "}---- CONFIG_BOARD_ARM_REALVIEW Done"
+echo "CONFIG_DT_SUPPORT_APPLE_FDT=y" >> .config
+echo "}---- CONFIG_DT_SUPPORT_APPLE_FDT Done"
 make CROSS_COMPILE=arm-none-eabi-
 echo "[*] uImage generated"
 cp uImage ../
