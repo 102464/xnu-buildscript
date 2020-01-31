@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo "STARTING QEMU"
+qemu-system-arm -machine realview-pb-a8 -m 512 \
+-kernel uImage \
+-append "rd=md0 debug=0x16e serial=3 -v symbolicate_panics=1" \
+-serial stdio
+
