@@ -4,8 +4,7 @@ echo "-------------------------------"
 echo "This script is only compatible with Ubuntu 14.04.*(i386),"
 echo "as it has clang-3.4 which won't cause build errors."
 echo "-------------------------------"
-printf "Check if you are satisfied. Enter to continue."
-read
+read -p "Check if you are satisfied. Enter to continue."
 echo "Installing dependencies (may need password)"
 sudo apt install git-core qemu-system-arm -y
 sudo apt install gcc-arm-none-eabi -y
