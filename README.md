@@ -1,7 +1,5 @@
 # xnu-buildscript
-#### 自动编译脚本，能自动下载和编译ARM版XNU内核源码并在QEMU上运行。
+#### A simple script that can automatically build and run ARM XNU Kernel on QEMU.
 
-## 用法
-chmod +x build
-
-然后运行./build即可
+## Usage 
+chmod +x build then run ./build. The script will download source code from Internet and build them automatically.
